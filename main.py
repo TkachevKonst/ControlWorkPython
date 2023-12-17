@@ -18,6 +18,13 @@ def id(data):
             return id + 1
     return 1
 
+def none_fail(data):
+    if os.path.exists(data):
+        if os.stat(data).st_size == 0:
+            print("Заметок не найдено. Сделайте запись")
+            write_new(data)
+
+
 def sort_list_date(data):
     with open(data,'r',encoding='UTF8') as dt:
         lt = list()
@@ -44,6 +51,7 @@ def search_id(data, item):
         return print("Не верно ввели данные.")
 
 def search_date(data):
+    none_fail(data)
     count = 0
     item = input('Введите дату заметки в формате дд.мм(Например 15.05 - 15 мая)\n')
     with open(data, 'r', encoding='utf8') as dt:
@@ -70,6 +78,7 @@ def write_new(data):
 
 
 def change_note(data):
+    none_fail(data)
     item = input('какую запись изменить (введите id): ')
     item_type = int(input('Введите номер что хотите изменить (1-Заголовок, 2-Заметка): '))
     index = search_id(data, item)
@@ -91,6 +100,7 @@ def change_note(data):
     sort_list_date(note)
 
 def read_one(data):
+    none_fail(data)
     item = input('какую запись вывестив в консоль (введите id): ')
     index = search_id(data,item)
     with open(data, 'r', encoding='UTF8') as dt:
@@ -98,10 +108,12 @@ def read_one(data):
         print(lines[4*index]+lines[1+4*index]+lines[2+4*index])
 
 def read_all(data):
+    none_fail(data)
     with open(data, 'r', encoding='UTF8') as dt:
         print(dt.read().strip())
 
 def delete_note_one(data):
+    none_fail(data)
     item = input('Какую запись удалить (введите id): ')
     index = search_id(data, item)
     with open(data, 'r', encoding='utf8') as dt:
